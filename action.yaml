@@ -59,7 +59,7 @@ runs:
           // Run GraphQL query against GitHub API to find all open issues created by the bot
           const query = `query($owner:String!, $name:String!, $creator:String!, $label:String!){
             repository(owner: $owner, name: $name) {
-              issues(first: 500000, states: OPEN, filterBy: {createdBy: $creator, labels: [$label]}, orderBy: {field: CREATED_AT, direction: DESC}) {
+              issues(first: 100, states: OPEN, filterBy: {createdBy: $creator, labels: [$label]}, orderBy: {field: CREATED_AT, direction: DESC}) {
                 edges {
                   node {
                     body
