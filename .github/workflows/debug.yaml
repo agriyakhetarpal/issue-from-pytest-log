@@ -32,5 +32,5 @@ jobs:
         uses: ./
         with:
           log-path: pytest-reportlog.jsonl
-          issue-title: "${{ github.run_id }}-${{ matrix.os }} did not pass"
+          issue-title: "Nightly CI failure"
           issue-label: "automated issue"
