@@ -1,0 +1,36 @@
+name: Debug
+on:
+  pull_request:
+
+jobs:
+  debug:
+    name: Debug ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.11"
+
+      - name: Run tests with pytest
+        id: test-run
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest-reportlog
+          python -m pytest test.py --report-log=pytest-reportlog.jsonl
+
+      - name: Call the action that this repository implements
+        if: >-
+          failure() &&
+          steps.test-run.outcome == 'failure'
+        uses: ./
+        with:
+          log-path: pytest-reportlog.jsonl
+          issue-title: "Nightly CI failure"
+          issue-label: "automated issue"
