@@ -45,6 +45,7 @@ runs:
       run: |
         python $GITHUB_ACTION_PATH/parse_logs.py ${{ inputs.log-path }}
     - name: create the issue
+      # Commit for debugging
       uses: actions/github-script@v6
       with:
         github-token: ${{ github.token }}
